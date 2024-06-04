@@ -11,31 +11,31 @@ export const setupServer = () => {
 
   app.get('/', (req, res) => {
     res.json({
-      message: 'Hello HW-2!',
+      message: 'Hello MongoDB!',
     });
   });
 
-  app.get('/students', async (req, res) => {
-    const students = await getAllStudents();
+  app.get('/contacts', async (req, res) => {
+    const contacts = await getAllStudents();
 
     res.status(200).json({
       message: 'Successfully found contacts!',
-      data: students,
+      data: contacts,
     });
   });
 
-  app.get('/students/:studentId', async (req, res) => {
-    const { studentId } = req.params;
-    const student = await getStudentById(studentId);
+  app.get('/contacts/:contactId', async (req, res) => {
+    const { contactId } = req.params;
+    const contact = await getStudentById(contactId);
 
-    if (!student) {
+    if (!contact) {
       res
         .status(404)
-        .json({ message: `Contact with id ${studentId} not found!` });
+        .json({ message: `Contact with id ${contactId} not found!` });
     } else {
       res.status(200).json({
-        message: `Successfully found contact with id ${studentId}!`,
-        data: student,
+        message: `Successfully found contact with id ${contactId}!`,
+        data: contact,
       });
     }
   });
@@ -51,13 +51,13 @@ export const setupServer = () => {
     }),
   );
 
-  app.use('*', (req, res, next) => {
+  app.use('*', (req, res) => {
     res.status(404).json({
       message: 'Not found',
     });
   });
 
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     res.status(500).json({
       message: 'Something went wrong',
       error: err.message,
