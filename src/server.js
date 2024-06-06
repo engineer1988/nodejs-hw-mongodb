@@ -29,9 +29,7 @@ export const setupServer = () => {
     const contact = await getStudentById(contactId);
 
     if (!contact) {
-      res
-        .status(404)
-        .json({ message: `Contact with id ${contactId} not found!` });
+      res.status(404).json({ message: 'Not found!' });
     } else {
       res.status(200).json({
         message: `Successfully found contact with id ${contactId}!`,
