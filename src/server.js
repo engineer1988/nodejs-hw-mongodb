@@ -2,7 +2,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { env } from './utils/env.js';
-import { getAllStudents, getStudentById } from './services/contacts.js';
+import studentsRouter from './routers/contacts.js';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -15,47 +15,6 @@ export const setupServer = () => {
     });
   });
 
-  app.get('/contacts', async (req, res) => {
-    const contacts = await getAllStudents();
-
-    res.status(200).json({
-      message: 'Successfully found contacts!',
-      data: contacts,
-    });
-  });
-
-  // app.get('/contacts/:contactId', async (req, res) => {
-  //   const { contactId } = req.params;
-  //   const contact = await getStudentById(contactId);
-
-  //   if (!contact) {
-  //     res.status(404).json({ message: 'Not found!' });
-  //   } else {
-  //     res.status(200).json({
-  //       message: `Successfully found contact with id ${contactId}!`,
-  //       data: contact,
-  //     });
-  //   }
-  // });
-  app.get('/contacts/:contactId', async (req, res) => {
-    try {
-      const { contactId } = req.params;
-      const contact = await getStudentById(contactId);
-
-      if (!contact) {
-        res.status(404).json({ message: 'Not found!' });
-      } else {
-        res.status(200).json({
-          message: `Successfully found contact with id ${contactId}!`,
-          data: contact,
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server Error' });
-    }
-  });
-
   app.use(express.json());
   app.use(cors());
 
@@ -66,6 +25,8 @@ export const setupServer = () => {
       },
     }),
   );
+
+  app.use(studentsRouter);
 
   app.use('*', (req, res) => {
     res.status(404).json({
