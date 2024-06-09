@@ -12,4 +12,10 @@ export default [
       'no-undef': 'error',
     },
   },
+  {
+    files: ['**/*.js'],
+    rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    },
+  },
 ];
