@@ -1,11 +1,3 @@
-const parseIsFavourite = (isFavourite) => {
-  const isString = typeof isFavourite === 'string';
-  if (!isString) return;
-  const favourite = (isFavourite) => ['true', 'false'].includes(isFavourite);
-
-  if (favourite(isFavourite)) return isFavourite;
-};
-
 const parseContactType = (contactType) => {
   const isString = typeof contactType === 'string';
   if (!isString) return;
@@ -18,11 +10,10 @@ const parseContactType = (contactType) => {
 export const parseFilterParams = (query) => {
   const { isFavourite, type } = query;
 
-  const parsedIsFavourite = parseIsFavourite(isFavourite);
   const parsedContactType = parseContactType(type);
 
   return {
-    isFavourite: parsedIsFavourite,
+    isFavourite,
     contactType: parsedContactType,
   };
 };
